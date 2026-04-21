@@ -5,6 +5,7 @@
 
 //   document.getElementById("view-" + vista).classList.add("active");
 // }
+//NAVEGACION SPA
 
 const enlaces = document.querySelectorAll(".nav-link");
 
@@ -21,7 +22,7 @@ enlaces.forEach(function (enlace) {
     document.getElementById("view-" + vista).classList.add("active");
   });
 });
-
+//PRODUCTOS
 const productos = [
   {
     id: 1,
@@ -79,25 +80,30 @@ const productos = [
   },
 ];
 
+//ESTADO DEL CARRITO
 let carrito = [];
 
 function actualizarContador() {
   const contador = document.getElementById("cart-count");
   contador.textContent = carrito.length;
 }
-
+//RENDER PRODUCTOS
 function renderizarProductos() {
   //Crear contenedor de cada producto
   const contenedor = document.getElementById("products-container");
   contenedor.innerHTML = "";
   productos.forEach(function (producto) {
-    contenedor.innerHTML += `<div class="product-card">
-    <h3>${producto.nombre}</h3>
-    <p class="product-description">${producto.descripcion}</p>
-    <span class="product-price">Bs. ${producto.precio}</span>
-    <br>
-    <button class="btn-add" data-id="${producto.id}">Agregar al carrito</button>
-  </div>`;
+    contenedor.innerHTML += `
+      <div class="product-card">
+        <h3>${producto.nombre}</h3>
+        <p>${producto.descripcion}</p>
+        <span class="product-price">Bs. ${producto.precio}</span>
+
+        <button class="btn-add" data-id="${producto.id}">
+          Agregar al carrito
+        </button>
+      </div>
+    `;
   });
 
   // Funcionamiento botones
@@ -106,15 +112,55 @@ function renderizarProductos() {
   botones.forEach(function (boton) {
     boton.addEventListener("click", function () {
       const id = parseInt(this.dataset.id);
-      // alert("Producto agregado:" + id);
 
       const producto = productos.find((p) => p.id === id);
-      carrito.push(producto);
-      console.log("carrito: ", carrito);
+
+      // carrito.push(producto);
+      const existente = carrito.find((p) => p.id === producto.id);
+
+      if (existente) {
+        existente.cantidad += 1;
+      } else {
+        carrito.push({ ...producto, cantidad: 1 });
+      }
 
       actualizarContador();
+      renderizarCarrito();
     });
   });
 }
 
+//CONTADOR CARRITO
+function actualizarContador() {
+  const contador = document.getElementById("cart-count");
+  contador.textContent = carrito.length;
+}
+
+//RENDER CARRITO
+function renderizarCarrito() {
+  const contenedor = document.getElementById("cart-container");
+
+  contenedor.innerHTML = "";
+
+  if (carrito.length === 0) {
+    contenedor.innerHTML = "<p>El carrito está vacío</p>";
+    return;
+  }
+
+  carrito.forEach(function (producto) {
+    contenedor.innerHTML += `
+      <div class="cart-item">
+        <p>${producto.nombre} (x ${producto.cantidad})</p>
+        <span>Bs. ${producto.precio}</span>
+      </div>
+    `;
+  });
+  const total = carrito.reduce((acc, producto) => {
+    return acc + producto.precio * producto.cantidad;
+  }, 0);
+
+  contenedor.innerHTML += `<h3>Total: Bs. ${total}</h3>`;
+}
+
 renderizarProductos();
+renderizarCarrito();
