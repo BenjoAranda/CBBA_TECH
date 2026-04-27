@@ -2,7 +2,7 @@
    PIXEL ART THEME - CBBA TECH
    ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
 /* Reset */
 * {
@@ -14,23 +14,23 @@
 
 /* ── Variables de paleta retro ── */
 :root {
-  --px-bg:        #0f0f23;
-  --px-bg2:       #1a1a3e;
-  --px-panel:     #16213e;
-  --px-border:    #4a9eff;
-  --px-border2:   #ff6b35;
-  --px-accent:    #ffd700;
-  --px-green:     #39ff14;
-  --px-pink:      #ff2d78;
-  --px-text:      #e0e0ff;
-  --px-text-dim:  #8888bb;
-  --px-white:     #ffffff;
-  --px-shadow:    #4a9eff;
+  --px-bg: #0f0f23;
+  --px-bg2: #1a1a3e;
+  --px-panel: #16213e;
+  --px-border: #4a9eff;
+  --px-border2: #ff6b35;
+  --px-accent: #ffd700;
+  --px-green: #39ff14;
+  --px-pink: #ff2d78;
+  --px-text: #e0e0ff;
+  --px-text-dim: #8888bb;
+  --px-white: #ffffff;
+  --px-shadow: #4a9eff;
 }
 
 /* ── Cuerpo ── */
 body {
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   background-color: var(--px-bg);
   background-image:
     linear-gradient(rgba(74, 158, 255, 0.05) 1px, transparent 1px),
@@ -41,8 +41,12 @@ body {
 }
 
 /* ── Scrollbar pixel ── */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--px-bg); }
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--px-bg);
+}
 ::-webkit-scrollbar-thumb {
   background: var(--px-border);
   border: 2px solid var(--px-bg);
@@ -52,8 +56,8 @@ body {
    LOGO
    ============================================= */
 .logo {
-  width: 48px;
-  height: 48px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
   image-rendering: pixelated;
   /* borde pixel cuadrado */
@@ -84,14 +88,18 @@ body {
 /* esquinas decorativas */
 .navbar::before,
 .navbar::after {
-  content: '■';
+  content: "■";
   position: absolute;
   color: var(--px-accent);
   font-size: 10px;
   top: -6px;
 }
-.navbar::before { left: -6px; }
-.navbar::after  { right: -6px; }
+.navbar::before {
+  left: -6px;
+}
+.navbar::after {
+  right: -6px;
+}
 
 /* ── Marca ── */
 .nav-brand {
@@ -116,13 +124,15 @@ body {
   flex-wrap: wrap;
 }
 
-.nav-links li { list-style: none; }
+.nav-links li {
+  list-style: none;
+}
 
 .nav-link {
   display: inline-block;
   text-decoration: none;
   color: var(--px-text);
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   font-size: 0.5rem;
   padding: 8px 12px;
   background: var(--px-bg2);
@@ -167,7 +177,9 @@ main {
   position: relative;
 }
 
-.view.active { display: block; }
+.view.active {
+  display: block;
+}
 
 /* ── Títulos ── */
 .view h2 {
@@ -181,7 +193,7 @@ main {
 
 /* línea decorativa pixel */
 .view h2::after {
-  content: '';
+  content: "";
   display: block;
   width: 100%;
   height: 3px;
@@ -208,7 +220,7 @@ main {
 }
 
 #view-home::before {
-  content: '★ BIENVENIDO ★';
+  content: "★ BIENVENIDO ★";
   display: block;
   font-size: 0.45rem;
   color: var(--px-green);
@@ -218,10 +230,14 @@ main {
 }
 
 /* ── Sección Menú ── */
-#view-menu { background: var(--px-panel); }
+#view-menu {
+  background: var(--px-panel);
+}
 
 /* ── Sección Contacto ── */
-#view-contact { background: var(--px-panel); }
+#view-contact {
+  background: var(--px-panel);
+}
 
 /* =============================================
    PRODUCTOS
@@ -250,7 +266,7 @@ main {
 
 /* badge pixel en esquina */
 .product-card::before {
-  content: '▶';
+  content: "▶";
   position: absolute;
   top: 6px;
   left: 8px;
@@ -290,7 +306,7 @@ main {
   border: 3px solid var(--px-pink);
   background: var(--px-bg);
   color: var(--px-pink);
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   font-size: 0.45rem;
   font-weight: bold;
   cursor: pointer;
@@ -371,20 +387,37 @@ footer p {
   letter-spacing: 1px;
 }
 
-footer p::before { content: '© '; color: var(--px-accent); }
+footer p::before {
+  content: "© ";
+  color: var(--px-accent);
+}
 
 /* =============================================
    ANIMACIONES PIXEL
    ============================================= */
 @keyframes pixelIn {
-  0%   { opacity: 0; clip-path: inset(100% 0 0 0); }
-  50%  { opacity: 0.5; clip-path: inset(50% 0 0 0); }
-  100% { opacity: 1; clip-path: inset(0% 0 0 0); }
+  0% {
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+  }
+  50% {
+    opacity: 0.5;
+    clip-path: inset(50% 0 0 0);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0% 0 0 0);
+  }
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 /* =============================================
@@ -490,4 +523,166 @@ footer p::before { content: '© '; color: var(--px-accent); }
   color: var(--px-text);
   margin: 0;
   line-height: 1.6;
+}
+
+.cart-qty {
+  color: var(--px-accent);
+  margin-left: 6px;
+}
+
+/* ── Carrito mejorado ── */
+.cart-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--px-text-dim);
+}
+
+.cart-empty-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.cart-empty h3 {
+  font-size: 0.6rem;
+  color: var(--px-accent);
+  margin-bottom: 10px;
+}
+
+.cart-item {
+  background: var(--px-bg2);
+  border: 2px solid var(--px-border);
+  box-shadow: 3px 3px 0 var(--px-border);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cart-item-info { flex: 1; }
+
+.cart-item-name {
+  font-size: 0.5rem;
+  color: var(--px-text);
+  margin: 0 0 6px 0;
+}
+
+.cart-item-price {
+  font-size: 0.45rem;
+  color: var(--px-text-dim);
+  margin: 0;
+}
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty-btn {
+  width: 28px;
+  height: 28px;
+  background: var(--px-bg);
+  border: 2px solid var(--px-border);
+  color: var(--px-text);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--px-border);
+  transition: none;
+  line-height: 1;
+}
+
+.qty-btn:hover {
+  background: var(--px-border);
+  color: var(--px-bg);
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+.qty-value {
+  font-size: 0.55rem;
+  color: var(--px-accent);
+  min-width: 20px;
+  text-align: center;
+}
+
+.cart-item-total {
+  font-size: 0.55rem;
+  color: var(--px-green);
+  font-weight: bold;
+  min-width: 80px;
+  text-align: right;
+}
+
+.cart-summary {
+  margin-top: 20px;
+  border: 3px solid var(--px-accent);
+  box-shadow: 4px 4px 0 var(--px-accent);
+  padding: 20px;
+  background: var(--px-bg2);
+}
+
+.cart-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.45rem;
+  color: var(--px-text-dim);
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--px-border);
+}
+
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 10px;
+}
+
+.cart-total-label {
+  font-size: 0.6rem;
+  color: var(--px-accent);
+}
+
+.cart-total-amount {
+  font-size: 0.75rem;
+  color: var(--px-green);
+  text-shadow: 2px 2px 0 var(--px-border2);
+}
+
+.btn-checkout {
+  margin-top: 16px;
+  width: 100%;
+  padding: 14px;
+  background: var(--px-green);
+  color: var(--px-bg);
+  border: 3px solid var(--px-green);
+  box-shadow: 4px 4px 0 var(--px-border2);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: none;
+}
+
+.btn-checkout:hover {
+  background: var(--px-bg);
+  color: var(--px-green);
+  box-shadow: none;
+  transform: translate(4px, 4px);
+}
+
+/* Animación bump del contador */
+@keyframes bump {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+.bump {
+  animation: bump 0.3s steps(3);
 }
