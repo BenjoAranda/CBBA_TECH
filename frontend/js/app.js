@@ -33,7 +33,7 @@ const productos = [
     id: 1,
     nombre: "Cargadores",
     descripcion: "Cargadores de tipo B y C",
-    precio: 45,
+    precio: 80,
     imagen: "img/cargadores.png",
   },
   {
@@ -75,14 +75,14 @@ const productos = [
     id: 7,
     nombre: "Protectores USB",
     descripcion: "Protectores personalizados a su gusto",
-    precio: 40,
+    precio: 50,
     imagen: "img/USB.png",
   },
   {
     id: 8,
     nombre: "Fundas Transparentes",
     descripcion: "Fundas para celulares Samsung y Apple",
-    precio: 20,
+    precio: 70,
     imagen: "img/fundas.png",
   },
   {
