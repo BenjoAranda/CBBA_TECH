@@ -29,15 +29,69 @@ enlaces.forEach(function (enlace) {
 
 // ── PRODUCTOS ───────────────────────────────
 const productos = [
-  { id: 1, nombre: "Cargadores",           descripcion: "Cargadores de tipo B y C",                          precio: 45  },
-  { id: 2, nombre: "Audifonos",            descripcion: "Audifonos de cable como de bluetooth",               precio: 250 },
-  { id: 3, nombre: "Protectores",          descripcion: "Protectores definidos y a su personalizacion",       precio: 60  },
-  { id: 4, nombre: "Baterias",             descripcion: "Baterias Originales de los modelos Samsung y Apple", precio: 150 },
-  { id: 5, nombre: "Pantallas",            descripcion: "Pantallas Originales de marca Samsung y Apple",      precio: 150 },
-  { id: 6, nombre: "Soporte de celular",   descripcion: "Soportes de cualquier tamaño para su celular",       precio: 100 },
-  { id: 7, nombre: "Protectores USB",      descripcion: "Protectores personalizados a su gusto",              precio: 40  },
-  { id: 8, nombre: "Fundas Transparentes", descripcion: "Fundas para celulares Samsung y Apple",              precio: 15  },
-  { id: 9, nombre: "Mandos de mano",       descripcion: "Mandos adaptables a celulares Samsung y Apple",      precio: 70  },
+  {
+    id: 1,
+    nombre: "Cargadores",
+    descripcion: "Cargadores de tipo B y C",
+    precio: 45,
+    imagen: "img/cargadores.png",
+  },
+  {
+    id: 2,
+    nombre: "Audifonos",
+    descripcion: "Audifonos de cable como de bluetooth",
+    precio: 250,
+    imagen: "img/audifonos.png",
+  },
+  {
+    id: 3,
+    nombre: "Protectores",
+    descripcion: "Protectores definidos y a su personalizacion",
+    precio: 60,
+    imagen: "img/protectores.png",
+  },
+  {
+    id: 4,
+    nombre: "Baterias",
+    descripcion: "Baterias Originales de los modelos Samsung y Apple",
+    precio: 150,
+    imagen: "img/baterias.png",
+  },
+  {
+    id: 5,
+    nombre: "Pantallas",
+    descripcion: "Pantallas Originales de marca Samsung y Apple",
+    precio: 150,
+    imagen: "img/pantallas.png",
+  },
+  {
+    id: 6,
+    nombre: "Soporte de celular",
+    descripcion: "Soportes de cualquier tamaño para su celular",
+    precio: 100,
+    imagen: "img/soporte.png",
+  },
+  {
+    id: 7,
+    nombre: "Protectores USB",
+    descripcion: "Protectores personalizados a su gusto",
+    precio: 40,
+    imagen: "img/USB.png",
+  },
+  {
+    id: 8,
+    nombre: "Fundas Transparentes",
+    descripcion: "Fundas para celulares Samsung y Apple",
+    precio: 20,
+    imagen: "img/fundas.png",
+  },
+  {
+    id: 9,
+    nombre: "Mandos de mano",
+    descripcion: "Mandos adaptables a celulares Samsung y Apple",
+    precio: 300,
+    imagen: "img/mando.png",
+  },
 ];
 
 // ── ESTADO DEL CARRITO ──────────────────────
@@ -75,6 +129,17 @@ function renderizarProductos() {
   productos.forEach(function (producto) {
     contenedor.innerHTML += `
       <div class="product-card">
+        <div class="product-img-wrap">
+          <img
+            src="${producto.imagen}"
+            alt="${producto.nombre}"
+            class="product-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="product-img-placeholder">
+            <span>📦</span>
+          </div>
+        </div>
         <h3>${producto.nombre}</h3>
         <p>${producto.descripcion}</p>
         <span class="product-price">Bs. ${producto.precio}</span>
@@ -103,7 +168,9 @@ function renderizarProductos() {
       // Feedback visual
       this.textContent = "✔ Agregado";
       const btn = this;
-      setTimeout(() => { btn.textContent = "+ Agregar"; }, 1000);
+      setTimeout(() => {
+        btn.textContent = "+ Agregar";
+      }, 1000);
     });
   });
 }
@@ -189,6 +256,63 @@ function renderizarCarrito() {
       actualizarContador();
       renderizarCarrito();
     });
+  });
+}
+
+// ── FORMULARIO DE CONTACTO ──────────────────
+function inicializarFormularioContacto() {
+  const form = document.getElementById("contact-form");
+  if (!form) return;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById("contact-name");
+    const email = document.getElementById("contact-email");
+    const mensaje = document.getElementById("contact-message");
+
+    const errorNombre = document.getElementById("error-name");
+    const errorEmail = document.getElementById("error-email");
+    const errorMensaje = document.getElementById("error-message");
+    const exito = document.getElementById("form-success");
+
+    // Limpiar errores previos
+    [errorNombre, errorEmail, errorMensaje].forEach(
+      (el) => (el.textContent = ""),
+    );
+    [nombre, email, mensaje].forEach((el) =>
+      el.classList.remove("input-error"),
+    );
+    exito.textContent = "";
+
+    let valido = true;
+
+    if (nombre.value.trim() === "") {
+      errorNombre.textContent = "El nombre es obligatorio";
+      nombre.classList.add("input-error");
+      valido = false;
+    }
+
+    if (email.value.trim() === "") {
+      errorEmail.textContent = "El email es obligatorio";
+      email.classList.add("input-error");
+      valido = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+      errorEmail.textContent = "El email no es válido";
+      email.classList.add("input-error");
+      valido = false;
+    }
+
+    if (mensaje.value.trim() === "") {
+      errorMensaje.textContent = "El mensaje es obligatorio";
+      mensaje.classList.add("input-error");
+      valido = false;
+    }
+
+    if (!valido) return;
+
+    exito.textContent = "✔ Mensaje enviado correctamente";
+    form.reset();
   });
 }
 

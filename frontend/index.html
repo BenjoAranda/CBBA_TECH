@@ -26,7 +26,7 @@
 
     <nav class="navbar">
       <div class="nav-brand">
-        <img class="logo" src="css/Logo 2.0 CBBA TECH.png" />
+        <img class="logo" src="img/Logo 2.0 CBBA TECH.png" />
         <span class="brand-name">CBBA TECH</span>
       </div>
       <ul class="nav-links" id="navLinks">
@@ -79,36 +79,69 @@
       <!-- CONTACTO -->
       <section id="view-contact" class="view">
         <h2>Contactos</h2>
+        <p class="contact-subtitle">¿Tienes alguna consulta? ¡Contáctanos!</p>
+
+        <!-- Cards de info -->
         <div class="contact-grid">
-          <div class="contact-item">
-            <span class="contact-icon">📍</span>
-            <div>
-              <p class="contact-label">Dirección</p>
-              <p>Cochabamba, Bolivia</p>
-              <p>Por la Calle 25 de Mayo y el I.Montes</p>
-            </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">📍</div>
+            <p class="contact-label">Dirección</p>
+            <p class="contact-value">Cochabamba, Bolivia</p>
+            <p class="contact-value">Calle 25 de Mayo e I. Montes</p>
           </div>
-          <div class="contact-item">
-            <span class="contact-icon">📞</span>
-            <div>
-              <p class="contact-label">Teléfono</p>
-              <p>+591 69525932</p>
-            </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">📞</div>
+            <p class="contact-label">Teléfono</p>
+            <p class="contact-value">+591 69525932</p>
           </div>
-          <div class="contact-item">
-            <span class="contact-icon">✉️</span>
-            <div>
-              <p class="contact-label">Email</p>
-              <p>cbbatech@email.com</p>
-            </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">✉️</div>
+            <p class="contact-label">Email</p>
+            <p class="contact-value">cbbatech@email.com</p>
           </div>
-          <div class="contact-item">
-            <span class="contact-icon">🕐</span>
-            <div>
-              <p class="contact-label">Horario</p>
-              <p>Lun–Vie: 09:00am – 19:00pm</p>
-            </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">🕐</div>
+            <p class="contact-label">Horario</p>
+            <p class="contact-value">Lun–Vie</p>
+            <p class="contact-value contact-hours">09:00 – 19:00</p>
           </div>
+        </div>
+
+        <!-- Formulario de contacto -->
+        <form id="contact-form" class="contact-form" novalidate>
+          <h3 class="form-title">► Envíanos un mensaje</h3>
+          <div class="form-group">
+            <label for="contact-name">Nombre Completo</label>
+            <input type="text" id="contact-name" placeholder="Ej. Juan Perez" />
+            <small class="error-msg" id="error-name"></small>
+          </div>
+          <div class="form-group">
+            <label for="contact-email">Correo Electrónico</label>
+            <input
+              type="email"
+              id="contact-email"
+              placeholder="Ej. juan@email.com"
+            />
+            <small class="error-msg" id="error-email"></small>
+          </div>
+          <div class="form-group">
+            <label for="contact-message">Mensaje</label>
+            <textarea
+              id="contact-message"
+              rows="4"
+              placeholder="¿En qué podemos ayudarte?"
+            ></textarea>
+            <small class="error-msg" id="error-message"></small>
+          </div>
+          <button type="submit" class="btn-send">🕹️ Enviar Mensaje</button>
+          <p id="form-success" class="success-msg"></p>
+        </form>
+
+        <!-- Banner decorativo -->
+        <div class="contact-banner">
+          <span class="contact-banner-dot"></span>
+          <span class="contact-banner-text">★ ESTAMOS PARA AYUDARTE ★</span>
+          <span class="contact-banner-dot"></span>
         </div>
       </section>
     </main>
