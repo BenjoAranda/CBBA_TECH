@@ -8,17 +8,9 @@ const enlaces = document.querySelectorAll(".nav-link");
 enlaces.forEach(function (enlace) {
   enlace.addEventListener("click", function (evento) {
     evento.preventDefault();
-
     const vista = enlace.dataset.view;
-
-    document.querySelectorAll(".view").forEach(function (seccion) {
-      seccion.classList.remove("active");
-    });
-
-    enlaces.forEach(function (link) {
-      link.classList.remove("active");
-    });
-
+    document.querySelectorAll(".view").forEach(s => s.classList.remove("active"));
+    enlaces.forEach(l => l.classList.remove("active"));
     document.getElementById("view-" + vista).classList.add("active");
     enlace.classList.add("active");
   });
@@ -26,69 +18,17 @@ enlaces.forEach(function (enlace) {
 
 // ── PRODUCTOS ───────────────────────────────
 const productos = [
-  {
-    id: 1,
-    nombre: "Cargadores",
-    descripcion: "Cargadores de tipo B y C",
-    precio: 80,
-    imagen: "img/cargadores.png",
-  },
-  {
-    id: 2,
-    nombre: "Audifonos",
-    descripcion: "Audifonos de cable como de bluetooth",
-    precio: 250,
-    imagen: "img/audifonos.png",
-  },
-  {
-    id: 3,
-    nombre: "Protectores",
-    descripcion: "Protectores definidos y a su personalizacion",
-    precio: 50,
-    imagen: "img/protectores.png",
-  },
-  {
-    id: 4,
-    nombre: "Baterias",
-    descripcion: "Baterias Originales de los modelos Samsung y Apple",
-    precio: 150,
-    imagen: "img/baterias.png",
-  },
-  {
-    id: 5,
-    nombre: "Pantallas",
-    descripcion: "Pantallas Originales de marca Samsung y Apple",
-    precio: 150,
-    imagen: "img/pantallas.png",
-  },
-  {
-    id: 6,
-    nombre: "Soporte de celular",
-    descripcion: "Soportes de cualquier tamaño para su celular",
-    precio: 100,
-    imagen: "img/soporte.png",
-  },
-  {
-    id: 7,
-    nombre: "Protectores USB",
-    descripcion: "Protectores personalizados a su gusto",
-    precio: 50,
-    imagen: "img/USB.png",
-  },
-  {
-    id: 8,
-    nombre: "Fundas Transparentes",
-    descripcion: "Fundas para celulares Samsung y Apple",
-    precio: 70,
-    imagen: "img/fundas.png",
-  },
-  {
-    id: 9,
-    nombre: "Mandos de mano",
-    descripcion: "Mandos adaptables a celulares Samsung y Apple",
-    precio: 300,
-    imagen: "img/mando.png",
-  },
+  // ACCESORIOS
+  { id: 1, nombre: "Cargadores",           categoria: "accesorios", descripcion: "Cargadores de tipo B y C",                          precio: 80,  imagen: "img/cargadores.png"  },
+  { id: 2, nombre: "Audifonos",            categoria: "accesorios", descripcion: "Audifonos de cable como de bluetooth",               precio: 250, imagen: "img/audifonos.png"   },
+  { id: 3, nombre: "Protectores",          categoria: "accesorios", descripcion: "Protectores definidos y a su personalizacion",       precio: 50,  imagen: "img/protectores.png" },
+  { id: 6, nombre: "Soporte de celular",   categoria: "accesorios", descripcion: "Soportes de cualquier tamaño para su celular",       precio: 100, imagen: "img/soporte.png"     },
+  { id: 7, nombre: "Protectores USB",      categoria: "accesorios", descripcion: "Protectores personalizados a su gusto",              precio: 50,  imagen: "img/USB.png"         },
+  { id: 8, nombre: "Fundas Transparentes", categoria: "accesorios", descripcion: "Fundas para celulares Samsung y Apple",              precio: 70,  imagen: "img/fundas.png"      },
+  { id: 9, nombre: "Mandos de mano",       categoria: "accesorios", descripcion: "Mandos adaptables a celulares Samsung y Apple",      precio: 300, imagen: "img/mando.png"       },
+  // REPUESTOS
+  { id: 4, nombre: "Baterias",             categoria: "repuestos",  descripcion: "Baterias Originales de los modelos Samsung y Apple", precio: 150, imagen: "img/baterias.png"    },
+  { id: 5, nombre: "Pantallas",            categoria: "repuestos",  descripcion: "Pantallas Originales de marca Samsung y Apple",      precio: 150, imagen: "img/pantallas.png"   },
 ];
 
 // ── ESTADO DEL CARRITO ──────────────────────
@@ -99,10 +39,8 @@ function guardarCarrito() {
 }
 
 function cargarCarrito() {
-  const carritoGuardado = localStorage.getItem("tech_carrito");
-  if (carritoGuardado) {
-    carrito = JSON.parse(carritoGuardado);
-  }
+  const guardado = localStorage.getItem("tech_carrito");
+  if (guardado) carrito = JSON.parse(guardado);
 }
 
 // ── ACTUALIZAR CONTADOR ─────────────────────
@@ -110,59 +48,67 @@ function actualizarContador() {
   const contador = document.getElementById("cart-count");
   const total = carrito.reduce((acc, p) => acc + p.cantidad, 0);
   contador.textContent = total;
-
   contador.classList.remove("bump");
   void contador.offsetWidth;
   contador.classList.add("bump");
   setTimeout(() => contador.classList.remove("bump"), 300);
 }
 
-// ── RENDER PRODUCTOS ────────────────────────
+// ── RENDER CARD ─────────────────────────────
+function crearCardHTML(producto) {
+  return `
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img
+          src="${producto.imagen}"
+          alt="${producto.nombre}"
+          class="product-img"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        />
+        <div class="product-img-placeholder"><span>📦</span></div>
+      </div>
+      <h3>${producto.nombre}</h3>
+      <p>${producto.descripcion}</p>
+      <span class="product-price">Bs. ${producto.precio}</span>
+      <div class="product-qty-controls">
+        <button class="product-qty-btn" data-id="${producto.id}" data-action="decrease">−</button>
+        <span class="product-qty-value" id="qty-${producto.id}">1</span>
+        <button class="product-qty-btn" data-id="${producto.id}" data-action="increase">+</button>
+      </div>
+      <button class="btn-add" data-id="${producto.id}">+ Agregar</button>
+    </div>
+  `;
+}
+
+// ── RENDER PRODUCTOS POR CATEGORÍA ──────────
 function renderizarProductos() {
-  const contenedor = document.getElementById("products-container");
-  contenedor.innerHTML = "";
+  const contAccesorios = document.getElementById("container-accesorios");
+  const contRepuestos  = document.getElementById("container-repuestos");
+
+  contAccesorios.innerHTML = "";
+  contRepuestos.innerHTML  = "";
 
   productos.forEach(function (producto) {
-    contenedor.innerHTML += `
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img
-            src="${producto.imagen}"
-            alt="${producto.nombre}"
-            class="product-img"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-          />
-          <div class="product-img-placeholder"><span>📦</span></div>
-        </div>
-        <h3>${producto.nombre}</h3>
-        <p>${producto.descripcion}</p>
-        <span class="product-price">Bs. ${producto.precio}</span>
-
-        <div class="product-qty-controls">
-          <button class="product-qty-btn" data-id="${producto.id}" data-action="decrease">−</button>
-          <span class="product-qty-value" id="qty-${producto.id}">1</span>
-          <button class="product-qty-btn" data-id="${producto.id}" data-action="increase">+</button>
-        </div>
-
-        <button class="btn-add" data-id="${producto.id}">+ Agregar</button>
-      </div>
-    `;
+    if (producto.categoria === "accesorios") {
+      contAccesorios.innerHTML += crearCardHTML(producto);
+    } else {
+      contRepuestos.innerHTML += crearCardHTML(producto);
+    }
   });
 
   // Eventos contador +/−
   document.querySelectorAll(".product-qty-btn").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      const id = parseInt(this.dataset.id);
-      const accion = this.dataset.action;
+      const id      = parseInt(this.dataset.id);
+      const accion  = this.dataset.action;
       const display = document.getElementById("qty-" + id);
-      let cantidad = parseInt(display.textContent);
+      let cantidad  = parseInt(display.textContent);
 
       if (accion === "increase") {
         cantidad += 1;
       } else if (accion === "decrease" && cantidad > 1) {
         cantidad -= 1;
       }
-
       display.textContent = cantidad;
     });
   });
@@ -170,12 +116,10 @@ function renderizarProductos() {
   // Eventos botón Agregar
   document.querySelectorAll(".btn-add").forEach(function (boton) {
     boton.addEventListener("click", function () {
-      const id = parseInt(this.dataset.id);
-      const producto = productos.find((p) => p.id === id);
-      const cantidad = parseInt(
-        document.getElementById("qty-" + id).textContent,
-      );
-      const existente = carrito.find((p) => p.id === id);
+      const id       = parseInt(this.dataset.id);
+      const producto = productos.find(p => p.id === id);
+      const cantidad = parseInt(document.getElementById("qty-" + id).textContent);
+      const existente = carrito.find(p => p.id === id);
 
       if (existente) {
         existente.cantidad += cantidad;
@@ -183,18 +127,14 @@ function renderizarProductos() {
         carrito.push({ ...producto, cantidad });
       }
 
-      // Resetear contador a 1
       document.getElementById("qty-" + id).textContent = 1;
-
       guardarCarrito();
       actualizarContador();
       renderizarCarrito();
 
       this.textContent = "✔ Agregado";
       const btn = this;
-      setTimeout(() => {
-        btn.textContent = "+ Agregar";
-      }, 1000);
+      setTimeout(() => { btn.textContent = "+ Agregar"; }, 1000);
     });
   });
 }
@@ -250,7 +190,7 @@ function renderizarCarrito() {
         <span class="cart-total-label">Total</span>
         <span class="cart-total-amount">Bs. ${total.toFixed(2)}</span>
       </div>
-      <button class="btn-checkout" onclick="alert('¡Pedido confirmado! Gracias por tu compra 🎉')">
+      <button class="btn-checkout" onclick="confirmarPedido()">
         🛍️ Confirmar Pedido
       </button>
     </div>
@@ -258,19 +198,16 @@ function renderizarCarrito() {
 
   contenedor.querySelectorAll(".qty-btn").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      const id = parseInt(this.dataset.id);
+      const id    = parseInt(this.dataset.id);
       const accion = this.dataset.action;
-      const item = carrito.find((p) => p.id === id);
-
+      const item  = carrito.find(p => p.id === id);
       if (!item) return;
 
       if (accion === "increase") {
         item.cantidad += 1;
       } else if (accion === "decrease") {
         item.cantidad -= 1;
-        if (item.cantidad <= 0) {
-          carrito = carrito.filter((p) => p.id !== id);
-        }
+        if (item.cantidad <= 0) carrito = carrito.filter(p => p.id !== id);
       }
 
       guardarCarrito();
@@ -278,6 +215,48 @@ function renderizarCarrito() {
       renderizarCarrito();
     });
   });
+}
+
+// ── CONFIRMAR PEDIDO ─────────────────────────
+async function confirmarPedido() {
+  const { data: { user } } = await db.auth.getUser();
+
+  if (!user) {
+    alert("Debes iniciar sesión para confirmar tu pedido.");
+    document.getElementById("btn-open-login").click();
+    return;
+  }
+
+  if (carrito.length === 0) {
+    alert("El carrito está vacío.");
+    return;
+  }
+
+  const total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+
+  const { data: pedido, error: e1 } = await db
+    .from("orders")
+    .insert({ user_id: user.id, total: parseFloat(total.toFixed(2)), estado: "pending" })
+    .select()
+    .single();
+
+  if (e1) { alert("Error al crear el pedido: " + e1.message); return; }
+
+  const items = carrito.map(item => ({
+    order_id:   pedido.id,
+    product_id: item.id,
+    cantidad:   item.cantidad,
+    precio_unit: item.precio,
+  }));
+
+  const { error: e2 } = await db.from("order_items").insert(items);
+  if (e2) { alert("Error al guardar los items: " + e2.message); return; }
+
+  carrito = [];
+  guardarCarrito();
+  actualizarContador();
+  renderizarCarrito();
+  alert("¡Pedido #" + pedido.id + " confirmado! Gracias por tu compra 🎉");
 }
 
 // ── FORMULARIO DE CONTACTO ──────────────────
@@ -288,32 +267,27 @@ function inicializarFormularioContacto() {
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const nombre = document.getElementById("contact-name");
-    const email = document.getElementById("contact-email");
+    const nombre  = document.getElementById("contact-name");
+    const email   = document.getElementById("contact-email");
     const mensaje = document.getElementById("contact-message");
 
-    const errorNombre = document.getElementById("error-name");
-    const errorEmail = document.getElementById("error-email");
+    const errorNombre  = document.getElementById("error-name");
+    const errorEmail   = document.getElementById("error-email");
     const errorMensaje = document.getElementById("error-message");
-    const exito = document.getElementById("form-success");
+    const exito        = document.getElementById("form-success");
 
-    [errorNombre, errorEmail, errorMensaje].forEach(
-      (el) => (el.textContent = ""),
-    );
-    [nombre, email, mensaje].forEach((el) =>
-      el.classList.remove("input-error"),
-    );
+    [errorNombre, errorEmail, errorMensaje].forEach(el => el.textContent = "");
+    [nombre, email, mensaje].forEach(el => el.classList.remove("input-error"));
     exito.textContent = "";
 
     let valido = true;
 
-    if (nombre.value.trim() === "") {
+    if (!nombre.value.trim()) {
       errorNombre.textContent = "El nombre es obligatorio";
       nombre.classList.add("input-error");
       valido = false;
     }
-
-    if (email.value.trim() === "") {
+    if (!email.value.trim()) {
       errorEmail.textContent = "El email es obligatorio";
       email.classList.add("input-error");
       valido = false;
@@ -322,8 +296,7 @@ function inicializarFormularioContacto() {
       email.classList.add("input-error");
       valido = false;
     }
-
-    if (mensaje.value.trim() === "") {
+    if (!mensaje.value.trim()) {
       errorMensaje.textContent = "El mensaje es obligatorio";
       mensaje.classList.add("input-error");
       valido = false;
@@ -335,142 +308,60 @@ function inicializarFormularioContacto() {
     form.reset();
   });
 }
-//js.app.js
-async function confirmarPedido() {
-  //1. Verificar sesion activa
-  const {
-    data: { user },
-  } = await db.auth.getUser();
-  if (!user) {
-    mostrarMensaje("Debes iniciar sesion primero", "error");
-    navegarA("login");
-    return;
-  }
-  if (carrito.length === 0) {
-    mostrarMensaje("El carrito esta vacio", "error");
-    return;
-  }
-
-  //2. Calcular total
-  const total = carrito.reduce(
-    (acc, item) => acc + item.precio * item.cantidad,
-    0,
-  );
-  //3. Insertar en orders
-  const { data: pedido, error: el } = await db
-    .from("orders")
-    .insert({
-      user_id: user.id,
-      total: parseFloat(total.toFixed(2)),
-      estado: "pending",
-    })
-    .select()
-    .single();
-  if (el) {
-    mostrarMensaje(el.message, "error");
-  }
-  //4. Insertar Items
-  const items = carrito.map((item) => ({
-    order_id: pedido.id,
-    product_id: item.id,
-    cantidad: item.cantidad,
-    precio_unit: item.precio,
-  }));
-  const { error: e2 } = await db.from("order_items").insert(items);
-  if (e2) {
-    mostrarMensaje(e2.message, "error");
-    return;
-  }
-  //5.Limpiar carrito y confirmar
-  carrito = [];
-  guardarCarrito();
-  actualizarContador();
-  renderizarCarrito();
-  mostrarMensaje("Pedido #" + pedido.id + " confirmado!", "exito");
-}
 
 // ── AUTENTICACIÓN - MODALES ──────────────────
 function inicializarAuth() {
   const modalLogin    = document.getElementById("modal-login");
   const modalRegister = document.getElementById("modal-register");
 
-  // Abrir modales
-  document.getElementById("btn-open-login").addEventListener("click", () => {
-    modalLogin.classList.add("open");
-  });
-  document.getElementById("btn-open-register").addEventListener("click", () => {
-    modalRegister.classList.add("open");
-  });
+  document.getElementById("btn-open-login").addEventListener("click", () => modalLogin.classList.add("open"));
+  document.getElementById("btn-open-register").addEventListener("click", () => modalRegister.classList.add("open"));
+  document.getElementById("close-login").addEventListener("click", () => modalLogin.classList.remove("open"));
+  document.getElementById("close-register").addEventListener("click", () => modalRegister.classList.remove("open"));
 
-  // Cerrar modales
-  document.getElementById("close-login").addEventListener("click", () => {
-    modalLogin.classList.remove("open");
-  });
-  document.getElementById("close-register").addEventListener("click", () => {
-    modalRegister.classList.remove("open");
-  });
-
-  // Cerrar al hacer clic fuera
   [modalLogin, modalRegister].forEach(modal => {
-    modal.addEventListener("click", function (e) {
-      if (e.target === modal) modal.classList.remove("open");
-    });
+    modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("open"); });
   });
 
-  // Cambiar entre modales
-  document.getElementById("switch-to-register").addEventListener("click", (e) => {
+  document.getElementById("switch-to-register").addEventListener("click", e => {
     e.preventDefault();
     modalLogin.classList.remove("open");
     modalRegister.classList.add("open");
   });
-  document.getElementById("switch-to-login").addEventListener("click", (e) => {
+  document.getElementById("switch-to-login").addEventListener("click", e => {
     e.preventDefault();
     modalRegister.classList.remove("open");
     modalLogin.classList.add("open");
   });
 
-  // ── SUBMIT LOGIN ──
+  // Login
   document.getElementById("form-login").addEventListener("submit", async function (e) {
     e.preventDefault();
-
     const email    = document.getElementById("login-email");
     const password = document.getElementById("login-password");
     const msgEmail = document.getElementById("error-login-email");
     const msgPass  = document.getElementById("error-login-password");
     const msgOk    = document.getElementById("login-success");
 
-    msgEmail.textContent = "";
-    msgPass.textContent  = "";
-    msgOk.textContent    = "";
+    msgEmail.textContent = msgPass.textContent = msgOk.textContent = "";
 
     let valido = true;
-    if (!email.value.trim()) {
-      msgEmail.textContent = "Email obligatorio";
-      valido = false;
-    }
-    if (!password.value.trim()) {
-      msgPass.textContent = "Contraseña obligatoria";
-      valido = false;
-    }
+    if (!email.value.trim())    { msgEmail.textContent = "Email obligatorio";      valido = false; }
+    if (!password.value.trim()) { msgPass.textContent  = "Contraseña obligatoria"; valido = false; }
     if (!valido) return;
 
-    const resultado = await iniciarSesion(email.value.trim(), password.value.trim());
+    const res = await iniciarSesion(email.value.trim(), password.value.trim());
+    if (!res.ok) { msgEmail.textContent = res.error; return; }
 
-    if (!resultado.ok) {
-      msgEmail.textContent = resultado.error;
-      return;
-    }
-
-    msgOk.textContent = "✔ Bienvenido, " + (resultado.nombre || "usuario");
-    actualizarNavbar(resultado);
+    msgOk.textContent = "✔ Bienvenido, " + (res.nombre || "usuario");
+    actualizarNavbar(res);
     setTimeout(() => modalLogin.classList.remove("open"), 1200);
     this.reset();
   });
 
-  // ── SUBMIT REGISTRO ──
+  // Registro
   document.getElementById("form-register").addEventListener("submit", async function (e) {
     e.preventDefault();
-
     const nombre   = document.getElementById("register-name");
     const email    = document.getElementById("register-email");
     const password = document.getElementById("register-password");
@@ -488,36 +379,28 @@ function inicializarAuth() {
     if (!password.value.trim()) { msgPass.textContent   = "Contraseña obligatoria"; valido = false; }
     if (!valido) return;
 
-    const resultado = await registrarUsuario(
-      nombre.value.trim(),
-      email.value.trim(),
-      password.value.trim()
-    );
-
-    if (!resultado.ok) {
-      msgEmail.textContent = resultado.error;
-      return;
-    }
+    const res = await registrarUsuario(nombre.value.trim(), email.value.trim(), password.value.trim());
+    if (!res.ok) { msgEmail.textContent = res.error; return; }
 
     msgOk.textContent = "✔ Cuenta creada. Revisa tu email para confirmar.";
     this.reset();
   });
 
-  // ── LOGOUT ──
+  // Logout
   document.getElementById("btn-logout").addEventListener("click", async () => {
     await cerrarSesion();
   });
 
-  // Verificar si ya hay sesión activa al cargar
+  // Sesión activa al cargar
   obtenerUsuarioActual().then(usuario => {
     if (usuario) actualizarNavbar(usuario);
   });
 }
 
-// ── ACTUALIZAR NAVBAR SEGÚN SESIÓN ──────────
+// ── ACTUALIZAR NAVBAR ────────────────────────
 function actualizarNavbar(usuario) {
-  const navAuth = document.getElementById("nav-auth");
-  const navUser = document.getElementById("nav-user");
+  const navAuth     = document.getElementById("nav-auth");
+  const navUser     = document.getElementById("nav-user");
   const navUsername = document.getElementById("nav-username");
 
   if (usuario) {

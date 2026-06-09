@@ -1081,3 +1081,30 @@ footer p::before {
     justify-content: center;
   }
 }
+
+/* ── Secciones de categoría ── */
+.categoria-section {
+  margin-bottom: 36px;
+}
+
+.categoria-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 10px 16px;
+  background: var(--px-bg2);
+  border-left: 4px solid var(--px-accent);
+  border-bottom: 2px solid var(--px-border);
+}
+
+.categoria-icon {
+  font-size: 1.4rem;
+}
+
+.categoria-header h3 {
+  font-size: 0.6rem;
+  color: var(--px-accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
