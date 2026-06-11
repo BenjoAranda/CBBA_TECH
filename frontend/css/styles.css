@@ -1108,3 +1108,69 @@ footer p::before {
   text-transform: uppercase;
   letter-spacing: 2px;
 }
+
+/* ── Producto bloqueado ── */
+.product-locked {
+  opacity: 0.75;
+}
+
+.product-locked .product-img-wrap {
+  filter: grayscale(60%);
+}
+
+.btn-locked {
+  background: var(--px-bg) !important;
+  color: var(--px-text-dim) !important;
+  border-color: var(--px-text-dim) !important;
+  box-shadow: 2px 2px 0 var(--px-text-dim) !important;
+  cursor: pointer !important;
+}
+
+.btn-locked:hover {
+  background: var(--px-text-dim) !important;
+  color: var(--px-bg) !important;
+  box-shadow: none !important;
+  transform: translate(2px, 2px) !important;
+}
+
+.product-qty-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Alerta de login ── */
+.alerta-login {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--px-bg2);
+  border: 2px solid var(--px-pink);
+  box-shadow: 3px 3px 0 var(--px-pink);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  animation: pixelIn 0.2s steps(4) forwards;
+}
+
+.alerta-login span {
+  font-size: 0.45rem;
+  color: var(--px-pink);
+  line-height: 1.8;
+}
+
+.alerta-login button {
+  background: none;
+  border: 2px solid var(--px-pink);
+  color: var(--px-pink);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.alerta-login button:hover {
+  background: var(--px-pink);
+  color: var(--px-white);
+}

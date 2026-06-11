@@ -31,7 +31,9 @@ const productos = [
   { id: 5, nombre: "Pantallas",            categoria: "repuestos",  descripcion: "Pantallas Originales de marca Samsung y Apple",      precio: 150, imagen: "img/pantallas.png"   },
 ];
 
-// ── ESTADO DEL CARRITO ──────────────────────
+// ── ESTADO DE SESIÓN ────────────────────────
+let usuarioActual = null;
+
 let carrito = [];
 
 function guardarCarrito() {
@@ -56,8 +58,9 @@ function actualizarContador() {
 
 // ── RENDER CARD ─────────────────────────────
 function crearCardHTML(producto) {
+  const bloqueado = !usuarioActual;
   return `
-    <div class="product-card">
+    <div class="product-card ${bloqueado ? "product-locked" : ""}">
       <div class="product-img-wrap">
         <img
           src="${producto.imagen}"
@@ -71,11 +74,13 @@ function crearCardHTML(producto) {
       <p>${producto.descripcion}</p>
       <span class="product-price">Bs. ${producto.precio}</span>
       <div class="product-qty-controls">
-        <button class="product-qty-btn" data-id="${producto.id}" data-action="decrease">−</button>
+        <button class="product-qty-btn" data-id="${producto.id}" data-action="decrease" ${bloqueado ? "disabled" : ""}>−</button>
         <span class="product-qty-value" id="qty-${producto.id}">1</span>
-        <button class="product-qty-btn" data-id="${producto.id}" data-action="increase">+</button>
+        <button class="product-qty-btn" data-id="${producto.id}" data-action="increase" ${bloqueado ? "disabled" : ""}>+</button>
       </div>
-      <button class="btn-add" data-id="${producto.id}">+ Agregar</button>
+      <button class="btn-add ${bloqueado ? "btn-locked" : ""}" data-id="${producto.id}">
+        ${bloqueado ? "🔒 Inicia sesión" : "+ Agregar"}
+      </button>
     </div>
   `;
 }
@@ -116,6 +121,13 @@ function renderizarProductos() {
   // Eventos botón Agregar
   document.querySelectorAll(".btn-add").forEach(function (boton) {
     boton.addEventListener("click", function () {
+      // Bloquear si no hay sesión
+      if (!usuarioActual) {
+        document.getElementById("btn-open-login").click();
+        mostrarAlertaLogin();
+        return;
+      }
+
       const id       = parseInt(this.dataset.id);
       const producto = productos.find(p => p.id === id);
       const cantidad = parseInt(document.getElementById("qty-" + id).textContent);
@@ -397,6 +409,24 @@ function inicializarAuth() {
   });
 }
 
+// ── ALERTA INICIAR SESIÓN ────────────────────
+function mostrarAlertaLogin() {
+  // Remover alerta previa si existe
+  const previa = document.getElementById("alerta-login");
+  if (previa) previa.remove();
+
+  const alerta = document.createElement("div");
+  alerta.id = "alerta-login";
+  alerta.className = "alerta-login";
+  alerta.innerHTML = `
+    <span>⚠️ Debes iniciar sesión para agregar productos al carrito.</span>
+    <button onclick="document.getElementById('alerta-login').remove()">✕</button>
+  `;
+  document.querySelector("#view-menu").prepend(alerta);
+
+  setTimeout(() => { if (alerta.parentNode) alerta.remove(); }, 3500);
+}
+
 // ── ACTUALIZAR NAVBAR ────────────────────────
 function actualizarNavbar(usuario) {
   const navAuth     = document.getElementById("nav-auth");
@@ -404,12 +434,17 @@ function actualizarNavbar(usuario) {
   const navUsername = document.getElementById("nav-username");
 
   if (usuario) {
+    usuarioActual = usuario;
     navAuth.style.display = "none";
     navUser.style.display = "flex";
     navUsername.textContent = "▶ " + (usuario.nombre || usuario.email);
+    // Re-renderizar productos para quitar el aspecto bloqueado
+    renderizarProductos();
   } else {
+    usuarioActual = null;
     navAuth.style.display = "flex";
     navUser.style.display = "none";
+    renderizarProductos();
   }
 }
 
