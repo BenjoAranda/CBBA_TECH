@@ -27,7 +27,7 @@
     <nav class="navbar">
       <div class="nav-brand">
         <img class="logo" src="img/Logo 2.0 CBBA TECH.png" />
-        <span class="brand-name">CBBA TECH</span>
+        <span class="brand-name">GABO TECH</span>
       </div>
       <ul class="nav-links" id="navLinks">
         <li><a href="#" class="nav-link active" data-view="home">Inicio</a></li>
@@ -63,20 +63,23 @@
         <h2>Inicio</h2>
         <p>Bienvenido a la tienda virtual de accesorios para celulares.</p>
         <div class="home-grid">
-          <div class="home-card">
+          <div class="home-card" onclick="irACategoria('accesorios')">
             <div class="pixel-icon">📱</div>
             <h3>Accesorios</h3>
             <p>Cargadores, fundas, protectores y más.</p>
+            <span class="home-card-btn">Ver productos ▶</span>
           </div>
-          <div class="home-card">
+          <div class="home-card" onclick="irACategoria('accesorios')">
             <div class="pixel-icon">🎮</div>
             <h3>Mandos</h3>
             <p>Mandos gaming para Samsung y Apple.</p>
+            <span class="home-card-btn">Ver productos ▶</span>
           </div>
-          <div class="home-card">
+          <div class="home-card" onclick="irACategoria('repuestos')">
             <div class="pixel-icon">🔋</div>
             <h3>Repuestos</h3>
             <p>Baterías y pantallas originales.</p>
+            <span class="home-card-btn">Ver productos ▶</span>
           </div>
         </div>
       </section>
@@ -99,7 +102,6 @@
           </div>
           <div id="container-repuestos" class="products-container"></div>
         </div>
-
       </section>
       <!-- CARRITO -->
       <section id="view-cart" class="view">
@@ -114,14 +116,19 @@
 
         <!-- Cards de info -->
         <div class="contact-grid">
-          <div class="contact-card">
+          <a
+            class="contact-card contact-card-link"
+            href="https://www.google.com/maps/dir/CEA+MADRE+MAR%C3%8DA+OLIVA,+M.M.Marques,+Cochabamba/-17.4212049,-66.1574179/@-17.4211185,-66.1574343,18.75z/data=!4m9!4m8!1m5!1m1!1s0x93e375fa6d279abb:0x2593b31c86be20d1!2m2!1d-66.1433755!2d-17.3717739!1m0!3e0?entry=ttu&g_ep=EgoyMDI2MDYxMC4wIKXMDSoASAFQAw%3D%3D"
+            target="_blank"
+            rel="noopener"
+          >
             <div class="contact-card-icon">📍</div>
             <p class="contact-label">Dirección</p>
             <p class="contact-value">Cochabamba, Bolivia</p>
             <p class="contact-value">
               Frente a la Av Panamericana y J.R. Molina
             </p>
-          </div>
+          </a>
           <div class="contact-card">
             <div class="contact-card-icon">📞</div>
             <p class="contact-label">Teléfono</p>
@@ -130,7 +137,7 @@
           <div class="contact-card">
             <div class="contact-card-icon">✉️</div>
             <p class="contact-label">Email</p>
-            <p class="contact-value">cbbatech@email.com</p>
+            <p class="contact-value">gabo@email.com</p>
           </div>
           <div class="contact-card">
             <div class="contact-card-icon">🕐</div>

@@ -409,6 +409,24 @@ function inicializarAuth() {
   });
 }
 
+// ── NAVEGAR A CATEGORÍA ──────────────────────
+function irACategoria(categoria) {
+  // Activar la vista del menú
+  document.querySelectorAll(".view").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+  document.getElementById("view-menu").classList.add("active");
+  document.querySelector(".nav-link[data-view='menu']").classList.add("active");
+
+  // Hacer scroll a la sección correspondiente
+  const destino = categoria === "repuestos"
+    ? document.getElementById("container-repuestos")
+    : document.getElementById("container-accesorios");
+
+  if (destino) {
+    setTimeout(() => destino.closest(".categoria-section").scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+  }
+}
+
 // ── ALERTA INICIAR SESIÓN ────────────────────
 function mostrarAlertaLogin() {
   // Remover alerta previa si existe

@@ -1174,3 +1174,47 @@ footer p::before {
   background: var(--px-pink);
   color: var(--px-white);
 }
+
+/* ── Home cards como botones ── */
+.home-card {
+  cursor: pointer;
+}
+
+.home-card:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.home-card-btn {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.4rem;
+  color: var(--px-bg);
+  background: var(--px-accent);
+  border: 2px solid var(--px-accent);
+  padding: 6px 10px;
+  letter-spacing: 1px;
+}
+
+.home-card:hover .home-card-btn {
+  background: var(--px-border2);
+  border-color: var(--px-border2);
+}
+
+/* ── Card de dirección con link ── */
+.contact-card-link {
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.contact-card-link:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--px-border2);
+  border-color: var(--px-accent);
+}
+
+.contact-card-link .contact-label,
+.contact-card-link .contact-value {
+  color: #8888bb;
+}
